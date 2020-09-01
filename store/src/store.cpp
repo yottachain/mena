@@ -813,12 +813,12 @@ void store::mchgdepacc( uint64_t minerid, const name& new_depacc )
   //将矿机的押金数量重新恢复到未扣罚金的初始额度
   miners.modify( miner, same_payer, [&]( auto& row ) {
     row.depacc  = new_depacc;
-    row.deposit = row.deposit_total;
+    row.deposit = row.dep_total;
   });
 
   // 添加新账号的已使用押金
   deposits.modify( depacc_new, same_payer, [&]( auto& row ) {
-    row.deposit_used += miner->deposit_total;
+    row.deposit_used += miner->dep_total;
   });
 }
 
@@ -894,7 +894,7 @@ void store::chgdeposit( const name& user, uint64_t minerid, bool is_increase, as
     });
     miners.modify( miner, same_payer, [&]( auto& row ) {
       row.deposit -= quant;
-      row.deposit_total -= quant;
+      row.dep_total -= quant;
     });
   } else {
     check( deposit->deposit_total.amount - deposit->deposit_used.amount >= quant.amount, "free deposit not enough." );
@@ -903,7 +903,7 @@ void store::chgdeposit( const name& user, uint64_t minerid, bool is_increase, as
     });
     miners.modify( miner, same_payer, [&]( auto& row ) {
       row.deposit += quant;
-      row.deposit_total += quant;
+      row.dep_total += quant;
     });
   }
 

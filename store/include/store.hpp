@@ -436,7 +436,7 @@ class [[eosio::contract("store")]] store : public contract {
          
          name        depacc;
          asset       deposit = asset(0, CORE_SYMBOL);
-         asset       deposit_total = asset(0, CORE_SYMBOL);
+         asset       dep_total = asset(0, CORE_SYMBOL);
 
          uint64_t    prod_space = 0;
          uint64_t    max_space = 0;
