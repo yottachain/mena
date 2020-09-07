@@ -67,29 +67,6 @@ void token::transfer( const name& from, const name& to, const asset& quantity, c
    add_balance( to, quantity, from );
 }
 
-void token::systransfer( const name& from, const name& to, const asset& quantity, const string& memo )
-{
-   require_auth( MGR_ADMIN );
-
-   check( from != to, "cannot transfer to self" );
-   check( is_account( to ), "to account does not exist");
-   auto sym = quantity.symbol;
-   stats statstable( get_self(), sym.code().raw() );
-   const auto& st = statstable.get( sym.code().raw(), "This token is not existed when tranfer." );
-
-   require_recipient( from );
-   require_recipient( to );
-
-   check( quantity.is_valid(), "invalid quantity" );
-   check( quantity.amount > 0, "must transfer positive quantity" );
-   check( sym == st.supply.symbol, "symbol precision mismatch" );
-   check( memo.size() <= 256, "memo has more than 256 bytes" );
-
-   sub_balance( from, quantity, to == FORFEIT_ACCOUNT );
-
-   add_balance( to, quantity, MGR_ADMIN );
-}
-
 void token::sub_balance( const name& account, const asset& value, bool is_force )
 {
    accounts _accounts( get_self(), account.value );

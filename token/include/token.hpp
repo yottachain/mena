@@ -158,20 +158,6 @@ class [[eosio::contract("token")]] token : public contract {
                          const name&   to,
                          const asset&  quantity,
                          const string& memo );
-      
-      /**
-       * This action is system transfer.
-       *
-       * @param from - transfer from which account,
-       * @param to - transfer to which account,
-       * @param quantity - quantity,
-       * @param memo - the memo.
-       */
-      [[eosio::action]]
-      void systransfer( const name&   from,
-                        const name&   to,
-                        const asset&  quantity,
-                        const string& memo );
 
       static asset get_supply( const name& token_contract_account, const symbol_code& sym_code )
       {
